@@ -2,16 +2,21 @@
 #define CANDY_H
 
 #include "Game_base.h"
+#include "Game_Utils.h"
+#include "Button.h"
+#include "LTexture.h"
 
-const int NumCell = 8;
-const int NumItem = 2;
+
+const int NumCell = 5;
+const int NumItem = 4;
+const int itemLength = 100;
+const int startX = 75;
+const int startY = 50;
 
 class Candy{
     int items[NumCell][NumCell];
     int posX[NumCell][NumCell];
     int posY[NumCell][NumCell];
-    int eleX[NumCell][NumCell];
-    int eleY[NumCell][NumCell];
 
     long long score = 0;
 
@@ -22,6 +27,8 @@ public:
     void run();
     void drawGame();
     void updateGame();
+    void play(SDL_Event* e, Button& PlayButton, LTexture gInstructionTexture, bool& QuitMenu, bool& Play,Mix_Chunk* gClick, SDL_Renderer *gRenderer);
+
 
 private:
     int newItem();

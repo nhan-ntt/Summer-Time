@@ -41,6 +41,8 @@
 		<Unit filename="Game_base.h" />
 		<Unit filename="LTexture.cpp" />
 		<Unit filename="LTexture.h" />
+		<Unit filename="Vari_and_Const" />
+		<Unit filename="Vari_and_Const.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
