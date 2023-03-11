@@ -1,5 +1,5 @@
-#ifndef GAME_BASE_
-#define GAME_BASE_
+#ifndef GAME_BASE_H
+#define GAME_BASE_H
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -52,18 +52,19 @@ const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 600;
 
 const string IMAGE = "start.png";
+const string WINDOW_TITLE = "mo anh lennn";
 
 const int COMMON_BUTTON_WIDTH = 100;
 const int COMMON_BUTTON_HEIGHT = 100;
 const int SMALL_BUTTON_WIDTH = 22;
 const int SMALL_BUTTON_HEIGHT = 34;
 
-const int PLAY_BUTTON_POSX = 750;
-const int PLAY_BUTTON_POSY= 150;
-const int HELP_BUTTON_POSX = 389;
-const int HELP_BUTTON_POSY = 293;
-const int EXIT_BUTTON_POSX = 389;
-const int EXIT_BUTTON_POSY = 402;
+const int PLAY_BUTTON_POSX = 250;
+const int PLAY_BUTTON_POSY= 425;
+const int HELP_BUTTON_POSX = 750;
+const int HELP_BUTTON_POSY = 150;
+const int EXIT_BUTTON_POSX = 750;
+const int EXIT_BUTTON_POSY = 400;
 const int BACK_BUTTON_POSX = 31;
 const int BACK_BUTTON_POSY = 29;
 const int PAUSE_BUTTON_POSX = 31;
@@ -86,9 +87,6 @@ enum ButtonSprite
 	BUTTON_MOUSE_OVER = 1,
 	BUTTON_TOTAL = 2
 };
-
-//start up SDL and create window
-
 
 void LogError(std::string msg, int error_code = SDL_ERROR);
 
