@@ -50,11 +50,39 @@ void Candy::initGame(){
         {
             posX[i][j] = startX + i*itemLength;
             posY[i][j] = startY + j*itemLength;
+            nextX[i][j] = posX[i][j];
+            nextY[i][j] = posY[i][j];
         }
     }
+    cnt_sel = 0;
+    restart = false;
+    quit = false;
+}
+int gcd(int x,int y)
+{
+    if (x == y || x==-y) return abs(x);
+    if (x*y==0) return abs(x+y);
+    return gcd(x%y,y%x);
 }
 
 void Candy::drawGame(){
+    gGridTexture.Render(0, 0, gRenderer);
+
+    bool check = false;
+    for (int i = 0; i < NumCell; i++){
+        for (int j = 0; j < NumCell; j++){
+            if (posX[i][j] != nextX[i][j] || posY[i][j] != nextY[i][j]){
+                check = true;
+                int distanceX = nextX[i][j] - posX[i][j];
+                int distanceY = nextY[i][j] - posY[i][j];
+                int d = gcd(distanceX, distanceY);
+                distanceX /= d;
+                distanceY /= d;
+                posX[i][j] += distanceX * itemSpeed;
+                posY[i][j] += distanceY * itemSpeed;
+            }
+        }
+    }
 
     for (int i = 0; i < NumCell; i++){
         for (int j = 0; j < NumCell; j++){
@@ -62,122 +90,140 @@ void Candy::drawGame(){
             ItemTexture[type].Render(posX[i][j], posY[i][j], gRenderer);
         }
     }
+
     SDL_RenderPresent(gRenderer);
-
+    if(check)   drawGame();
 }
 
-void Candy::play(SDL_Event* e, Button& PlayButton, LTexture gInstructionTexture, bool& QuitMenu, bool& Play,Mix_Chunk* gClick, SDL_Renderer *gRenderer){
-    if (e->type == SDL_QUIT)
-	{
-		QuitMenu = true;
-	}
+void Candy::updateTouch(int mouseX, int mouseY){
+    int col = (mouseY - startY) / itemLength;
+    int row = (mouseX - startX) / itemLength;
 
-	if (PlayButton.IsInside(e, COMMON_BUTTON))
-	{
-		switch (e->type)
-		{
-            case SDL_MOUSEMOTION:
-                PlayButton.currentSprite = BUTTON_MOUSE_OVER;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                //Play = true;
-                //QuitMenu = true;
-                Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
-                PlayButton.currentSprite = BUTTON_MOUSE_OVER;
-				while (!Play){
-					if (e->type == SDL_QUIT)
-					{
-						Play = true;
-						QuitMenu = true;
-						close();
-					}
-					gInstructionTexture.Render(0,0, gRenderer);
-                    initGame();
-                    drawGame();
-                    SDL_RenderPresent(gRenderer);
-					do{
-						//gInstructionTexture.Render(0, 0, gRenderer);
-
-
-						SDL_RenderPresent(gRenderer);
-					}while (SDL_PollEvent(e) != 0 && (e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEMOTION)) ;
-				}
-
-                SDL_RenderPresent(gRenderer);
-                break;
+    cout << row << ' ' << col << " ******* "<< cnt_sel << endl;
+    if (row < 0 || col < 0 || row >= NumCell || col >= NumCell)
+        return;
+    if (cnt_sel != 1){
+        selected[0].fi = row;
+        selected[0].se = col;
+        cnt_sel = 1;
+    }
+    else{
+        if ((row == selected[0].fi - 1 && col == selected[0].se) ||
+            (row == selected[0].fi + 1 && col == selected[0].se) ||
+            (row == selected[0].fi && col == selected[0].se + 1) ||
+            (row == selected[0].fi && col == selected[0].se - 1))
+        {
+            selected[1].fi = row;
+            selected[1].se = col;
+            cnt_sel = 2;
         }
-	}
-	else
-	{
-		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
-	}
+        else cnt_sel = 0;
+    }
+
 }
+
+void Candy::swapItems(int x, int y, int u, int v){
+    nextX[x][y] = posX[u][v];
+    nextY[x][y] = posY[u][v];
+    nextX[u][v] = posX[x][y];
+    nextY[u][v] = posY[x][y];
+
+    drawGame();
+    swap(posX[x][y], posX[u][v]);
+    swap(posY[x][y], posY[u][v]);
+
+    nextX[x][y] = posX[x][y];
+    nextY[x][y] = posY[x][y];
+    nextX[u][v] = posX[u][v];
+    nextY[u][v] = posY[u][v];
+
+    swap(items[x][y], items[u][v]);
+}
+
+void Candy::updateGame(){
+    int x = selected[0].fi, y = selected[0].se;
+    int u = selected[1].fi, v = selected[1].se;
+
+    if (cnt_sel == 2){
+        cnt_sel = 0;
+        swapItems(x, y, u, v);
+    }
+}
+
+void Candy::updateBoard(){
+    //while (true){
+    drawGame();
+        //generateItems
+    //}
+}
+
 
 void Candy::run(){
-    if (!init())
-	{
-		printf("Failed to initialize!\n");
-	}
-	else
-	{
-		if (!loadMedia())
-		{
-			printf("Failed to load media!\n");
-		}
-		else
-		{
-			bool Quit_Menu = false;
+    if (init() && loadMedia())
+    {
+        while (menu)
+        {
+            SDL_Event e_mouse;
+            while (SDL_PollEvent(&e_mouse) != 0)
+            {
+                if (e_mouse.type == SDL_QUIT){
+                    menu = false;
+                    quit = true;
+                }
 
-			while (!Quit_Menu)
-			{
-				SDL_Event e_mouse;
-				while (SDL_PollEvent(&e_mouse) != 0)
-				{
-                    if (e_mouse.type == SDL_QUIT)
-					{
-						Quit_Menu = true;
-					}
+                HandlePlayButton(&e_mouse, PlayButton, menu, play, gClick);
+                HandleHelpButton(&e_mouse, gBackButton, HelpButton, BackButton, gInstructionTexture, gBackButtonTexture, gRenderer, quit, gClick );
+                HandleExitButton(&e_mouse, ExitButton, quit, gClick);
 
-					bool Quit_Game = false;
+                if (quit == true)   return;
 
+            }
 
-                    play(&e_mouse, PlayButton, gGridTexture, Quit_Menu, Quit_Game, gClick, gRenderer);
-                    HandleHelpButton(&e_mouse, gBackButton, HelpButton, BackButton, gInstructionTexture, gBackButtonTexture, gRenderer, Quit_Game, gClick );
-                    HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
+            gMenuTexture.Render(0, 0, gRenderer);
 
-					if (Quit_Game == true)
-					{
-						return;
-					}
+            SDL_Rect* currentClip_Play = &gPlayButton[PlayButton.currentSprite];
+            PlayButton.Render(currentClip_Play, gRenderer, gPlayButtonTexture);
 
+            SDL_Rect* currentClip_Play1 = &gHelpButton[HelpButton.currentSprite];
+            HelpButton.Render(currentClip_Play1, gRenderer, gHelpButtonTexture);
+            SDL_Rect* currentClip_Play2 = &gExitButton[ExitButton.currentSprite];
+            ExitButton.Render(currentClip_Play2, gRenderer, gExitButtonTexture);
+            SDL_RenderPresent(gRenderer);
+        }
 
-                    //SDL_RenderPresent(gRenderer);
-				}
+        initGame();
 
+        while (play)
+        {
 
-                gMenuTexture.Render(0, 0, gRenderer);
-				//gInstructionTexture.Render(0, 0, gRenderer);
+            int mouseX, mouseY;
+            SDL_Event e_mouse;
+            while (SDL_PollEvent(&e_mouse) != 0)
+            {
+                if (e_mouse.type == SDL_QUIT){
+                    play = false;
+                    quit = true;
+                }
 
-				SDL_Rect* currentClip_Play = &gPlayButton[PlayButton.currentSprite];
-				PlayButton.Render(currentClip_Play, gRenderer, gPlayButtonTexture);
+                if (e_mouse.type == SDL_MOUSEBUTTONDOWN){
+                    cout << mouseX << ' ' << mouseY << endl;
 
-                SDL_Rect* currentClip_Play1 = &gHelpButton[HelpButton.currentSprite];
-				HelpButton.Render(currentClip_Play1, gRenderer, gHelpButtonTexture);
+                    SDL_GetMouseState(&mouseX, &mouseY);
+                    updateTouch(mouseX, mouseY);
 
-                SDL_Rect* currentClip_Play2 = &gExitButton[ExitButton.currentSprite];
-				ExitButton.Render(currentClip_Play2, gRenderer, gExitButtonTexture);
+                }
+                updateGame();
+                drawGame();
+            }
+            drawGame();
+            if (quit == true && play == false)   return;
 
-				//gInstructionTexture.Render(0, 0, gRenderer);
-
-				SDL_RenderPresent(gRenderer);
-			}
-		}
-	}
+        }
+    }
 	close();
 
 	return;
 }
-
 
 bool init()
 {
