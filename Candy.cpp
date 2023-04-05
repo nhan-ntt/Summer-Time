@@ -3,7 +3,7 @@
 
 
 int Candy::newItem(){
-    return rand() % NumItem;
+    return (rand() % NumItem);
 }
 
 bool Candy::checkInit(){
@@ -11,10 +11,7 @@ bool Candy::checkInit(){
     for (int i = 0; i < NumCell; i++){
         for (int j = 0; j < NumCell; j++){
             if (j + 2 < NumCell){
-                if (items[i][j] == items[i][j + 1]
-                    &&  items[i][j] == items[i][j + 2])
-                {
-
+                if (items[i][j] == items[i][j + 1] &&  items[i][j] == items[i][j + 2]){
                     items[i][j] = newItem();
                     items[i][j + 1] = newItem();
                     items[i][j + 2] = newItem();
@@ -23,10 +20,7 @@ bool Candy::checkInit(){
             }
 
             if (i + 2 < NumCell){
-                if (items[i][j] == items[i + 1][j]
-                    &&  items[i][j] == items[i + 2][j])
-                {
-
+                if (items[i][j] == items[i + 1][j] &&  items[i][j] == items[i + 2][j]){
                     items[i][j] = newItem();
                     items[i + 1][j] = newItem();
                     items[i + 2][j] = newItem();
@@ -45,6 +39,8 @@ void Candy::initGame(){
             items[i][j] = newItem();
         }
     }
+    while(checkInit()) checkInit();
+
     for(int i = 0; i < NumCell; i++){
         for(int j = 0; j < NumCell;j++)
         {
@@ -58,6 +54,7 @@ void Candy::initGame(){
     restart = false;
     quit = false;
 }
+
 int gcd(int x,int y)
 {
     if (x == y || x==-y) return abs(x);
@@ -66,6 +63,7 @@ int gcd(int x,int y)
 }
 
 void Candy::drawGame(){
+
     gGridTexture.Render(0, 0, gRenderer);
 
     bool check = false;
@@ -87,39 +85,63 @@ void Candy::drawGame(){
     for (int i = 0; i < NumCell; i++){
         for (int j = 0; j < NumCell; j++){
             int type = items[i][j];
-            ItemTexture[type].Render(posX[i][j], posY[i][j], gRenderer);
+            if (type != BLANK)
+                ItemTexture[type].Render_size(posX[i][j], posY[i][j], itemLength, itemLength, gRenderer);
+            else
+                DisTexture.Render_size(posX[i][j], posY[i][j], itemLength, itemLength, gRenderer);
+
+            //ItemTexture[type].Render(posX[i][j], posY[i][j], gRenderer, &clip[i][j]);
         }
     }
 
+    if(cnt_sel == 1){
+        //ChooseTexture.Render_size(posX[selected[0].fi], posY[selected[0].se], itemLength, itemLength, gRenderer);
+        int x = posX[selected[0].fi][selected[0].se];
+        int y = posY[selected[0].fi][selected[0].se];
+        ChooseTexture.Render_size(x, y, itemLength, itemLength, gRenderer);
+    }
+
     SDL_RenderPresent(gRenderer);
+
     if(check)   drawGame();
 }
 
-void Candy::updateTouch(int mouseX, int mouseY){
-    int col = (mouseY - startY) / itemLength;
-    int row = (mouseX - startX) / itemLength;
+string conv(int i){
+    if (i == -1)    return "BLANK";
+    if (i == 0)    return "SQUARE";
+    if (i == 1)    return "HEART";
+    if (i == 2)    return "CIRCLE";
+    if (i == 3)    return "DIAMOND";
+    if (i == 4)    return "QUAD_hori";
+    if (i == 5)    return "QUAD_vert";
+    if (i == 6)    return "QUIN";
+    else return "haizzzzzzzz";
+}
 
-    cout << row << ' ' << col << " ******* "<< cnt_sel << endl;
+void Candy::updateTouch(int mouseX, int mouseY){
+    int row = (mouseY - startY) / itemLength;
+    int col = (mouseX - startX) / itemLength;
+
+    cout << row << ' ' << col << " ********** "<< conv(items[col][row]) << endl;
     if (row < 0 || col < 0 || row >= NumCell || col >= NumCell)
         return;
     if (cnt_sel != 1){
-        selected[0].fi = row;
-        selected[0].se = col;
+        selected[0].fi = col;
+        selected[0].se = row;
         cnt_sel = 1;
     }
     else{
-        if ((row == selected[0].fi - 1 && col == selected[0].se) ||
-            (row == selected[0].fi + 1 && col == selected[0].se) ||
-            (row == selected[0].fi && col == selected[0].se + 1) ||
-            (row == selected[0].fi && col == selected[0].se - 1))
+        if ((col == selected[0].fi - 1 && row == selected[0].se) ||
+            (col == selected[0].fi + 1 && row == selected[0].se) ||
+            (col == selected[0].fi && row == selected[0].se + 1) ||
+            (col == selected[0].fi && row == selected[0].se - 1))
         {
-            selected[1].fi = row;
-            selected[1].se = col;
+            selected[1].fi = col;
+            selected[1].se = row;
             cnt_sel = 2;
         }
         else cnt_sel = 0;
     }
-
 }
 
 void Candy::swapItems(int x, int y, int u, int v){
@@ -140,27 +162,209 @@ void Candy::swapItems(int x, int y, int u, int v){
     swap(items[x][y], items[u][v]);
 }
 
+void Candy::DropDown()
+{
+    //drop
+
+    for (int col = 0; col < NumCell; col++){
+        int blank = NumCell - 1;
+        while (blank >= 0){
+            while (items[col][blank] != BLANK && blank >= 0)  blank--;
+            int nah = blank;
+            while (items[col][nah] == BLANK && nah >= 0)  nah--;
+            if(nah < 0)   break;
+            swap(items[col][nah], items[col][blank]);
+            //now blank = nah, nah = blank
+            posX[col][blank] = posX[col][nah];
+            posY[col][blank] = posY[col][nah];
+            cout << endl << "DA swapp" << endl;
+
+        }
+    }
+
+    //generate
+    for (int col = NumCell - 1; col >= 0; col--){
+        int rowo = 0;
+        for (int row = NumCell - 1; row >= 0; row--){
+            if(items[col][row] == BLANK){
+                posX[col][row] = startX + col * itemLength;
+
+                if (rowo == 0)  rowo = itemLength;
+                else rowo += itemLength;
+
+                posY[col][row] = startY - rowo;
+
+                items[col][row] = newItem();
+            }
+        }
+    }
+
+    drawGame();
+}
+
+bool Candy::checkClear()
+{
+    int cnt, row, col;
+    bool can = false;
+
+    for(col = 0; col < NumCell; col++)
+    {
+        cnt = 1;
+        for(row = 1; row <= NumCell; row++)
+            if (items[col][row] < QUAD_VERT && items[col][row] > BLANK && items[col][row] == items[col][row - 1]) cnt++;
+            else
+            {
+                if (cnt > 2)
+                {
+                    can = true;
+                    for(int i = row - 1; i >= row - cnt; i--)
+                        items[col][i] = BLANK;
+                    if (cnt == 5) items[col][row - cnt] = QUINTUPLE;
+                    if (cnt == 4) items[col][row - cnt] = QUAD_HORI;
+                }
+                cnt = 1;
+            }
+    }
+
+    for(row = 0; row < NumCell; row++)
+    {
+        cnt = 1;
+        for(col = 1; col <= NumCell; col++)
+            if (items[col][row] < QUAD_VERT && items[col][row] > BLANK && items[col][row] == items[col - 1][row]) cnt++;
+            else
+            {
+                if (cnt > 2)
+                {
+                    can = true;
+                    for(int i = col - 1; i >= col - cnt; i--)
+                        items[i][row] = BLANK;
+                    if (cnt == 5) items[col - cnt][row] = QUINTUPLE;
+                    if (cnt == 4) items[col - cnt][row] = QUAD_VERT;
+                }
+                cnt = 1;
+            }
+    }
+
+    return can;
+}
+
+int Candy::horizontal(int x, int y){
+    int y_left = y - 1;
+    int y_right = y + 1;
+    if (items[x][y] == BLANK || items[x][y] >= QUAD_VERT)   return 0;
+    while (y_left >= 0 && items[x][y_left] == items[x][y])  y_left--;
+    while (y_right < NumCell && items[x][y_right] == items[x][y])  y_right++;
+
+    return y_right - y_left - 1;
+}
+
+int Candy::vertical(int x, int y){
+    int x_up = x - 1;
+    int x_down = x + 1;
+    if (items[x][y] == BLANK || items[x][y] >= QUAD_VERT)   return 0;
+    while (x_up >= 0 && items[x_up][y] == items[x][y])  x_up--;
+    while (x_down < NumCell && items[x_down][y] == items[x][y])  x_down++;
+
+    return x_down - x_up - 1;
+}
+
+bool Candy::Neighbor(int x, int y){
+    int hori = horizontal(x, y);
+    int vert = vertical(x, y);
+    //if (hori != 0 || vert != 0) items[x][y] = BLANK;
+    return (hori >= 3 ||  vert >= 3);
+}
+
+bool Candy::CanSwap(int x, int y, int u, int v){
+    return Neighbor(x, y) || Neighbor(u, v);
+}
+
+void Candy::Stripe(int x, int y){
+    if (items[x][y] == QUAD_HORI){
+        for (int i = 0; i < NumCell; i++){
+            items[x][i] = BLANK;
+        }
+    }
+    else if (items[x][y] == QUAD_VERT){
+        for (int i = 0; i < NumCell; i++){
+            items[i][y] = BLANK;
+        }
+    }
+}
+
+void destroyAll(){
+
+}
+
+void Candy::Gaturingu(int x, int y, int type){
+    for (int i = 0; i < NumCell; i++)
+        for (int j = 0; j < NumCell; j++){
+            if (type == QUINTUPLE){
+                items[i][j] = BLANK;
+            }
+            else if (type == QUAD_HORI || type == QUAD_VERT){
+                if (items[i][j] == QUAD_HORI || items[i][j] == QUAD_VERT)
+                    Stripe(i, j);
+            }
+            else if(items[i][j] == type)
+                items[i][j] = BLANK;
+
+        }
+    items[x][y] = BLANK;
+}
+
+void Candy::updateBoard(){
+    while (true){
+        drawGame();
+        Sleep(timeSleep);
+        DropDown();
+        if(!checkClear()) break;
+    }
+}
+
+
 void Candy::updateGame(){
     int x = selected[0].fi, y = selected[0].se;
     int u = selected[1].fi, v = selected[1].se;
 
     if (cnt_sel == 2){
         cnt_sel = 0;
-        swapItems(x, y, u, v);
+        if (items[x][y] == QUINTUPLE && items[u][v] != QUINTUPLE){
+            Gaturingu(x, y, items[u][v]);
+            updateBoard();
+        }
+        else if (items[x][y] != QUINTUPLE && items[u][v] == QUINTUPLE){
+            Gaturingu(u, v, items[x][y]);
+            updateBoard();
+        }
+        else{
+            swapItems(x, y, u, v);
+
+            if(!CanSwap(x, y, u, v)){
+                swapItems(x, y, u, v);
+            }
+            updateBoard();
+        }
+    }
+    else if(cnt_sel == 1 && (items[x][y] == QUAD_HORI || items[x][y] == QUAD_VERT)){
+        cnt_sel = 0;
+        Stripe(x, y);
+
+        updateBoard();
     }
 }
 
-void Candy::updateBoard(){
-    //while (true){
-    drawGame();
-        //generateItems
-    //}
-}
-
-
 void Candy::run(){
+    const int FPS = 60;
+	const int frameDelay = 1000 / FPS;
+
+	Uint32 frameStart;
+	int frameTime;
+
     if (init() && loadMedia())
     {
+        frameStart = SDL_GetTicks();
+
         while (menu)
         {
             SDL_Event e_mouse;
@@ -186,6 +390,7 @@ void Candy::run(){
 
             SDL_Rect* currentClip_Play1 = &gHelpButton[HelpButton.currentSprite];
             HelpButton.Render(currentClip_Play1, gRenderer, gHelpButtonTexture);
+
             SDL_Rect* currentClip_Play2 = &gExitButton[ExitButton.currentSprite];
             ExitButton.Render(currentClip_Play2, gRenderer, gExitButtonTexture);
             SDL_RenderPresent(gRenderer);
@@ -214,8 +419,13 @@ void Candy::run(){
                 }
                 updateGame();
                 drawGame();
+
+                frameTime = SDL_GetTicks() - frameStart;
+                if (frameDelay > frameTime)
+                {
+                    SDL_Delay(frameDelay - frameTime);
+                }
             }
-            drawGame();
             if (quit == true && play == false)   return;
 
         }
@@ -310,9 +520,23 @@ bool loadMedia()
             success = false;
         }
         if (!ItemTexture[0].LoadFromFile("square.png", gRenderer))   success = false;
+
         if (!ItemTexture[1].LoadFromFile("heart.png", gRenderer))   success = false;
+
         if (!ItemTexture[2].LoadFromFile("circle.png", gRenderer))   success = false;
+
         if (!ItemTexture[3].LoadFromFile("diamond.png", gRenderer))   success = false;
+
+        if (!ItemTexture[4].LoadFromFile("quad_hori.png", gRenderer))   success = false;
+
+        if (!ItemTexture[5].LoadFromFile("quad_vert.png", gRenderer))   success = false;
+
+        if (!ItemTexture[6].LoadFromFile("quin.png", gRenderer))   success = false;
+
+        if (!ChooseTexture.LoadFromFile("meo.png", gRenderer))   success = false;
+
+        if (!DisTexture.LoadFromFile("kaguu.png", gRenderer))   success = false;
+
     }
     if (!gHelpButtonTexture.LoadFromFile("help.png", gRenderer)){
         std::cout << "Failed to load help_button image" << std::endl;
