@@ -50,7 +50,6 @@ private:
     bool checkClear();
     void Stripe(int x, int y);
     void Gaturingu(int x, int y, int type);
-
 };
 
 #endif // CANDY_H

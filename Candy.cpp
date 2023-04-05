@@ -165,17 +165,20 @@ void Candy::swapItems(int x, int y, int u, int v){
 void Candy::DropDown()
 {
     //drop
+
     for (int col = 0; col < NumCell; col++){
         int blank = NumCell - 1;
         while (blank >= 0){
-            while (items[col][blank] != -1 && blank >= 0)  blank--;
+            while (items[col][blank] != BLANK && blank >= 0)  blank--;
             int nah = blank;
-            while (items[col][nah] == -1 && nah >= 0)  nah--;
+            while (items[col][nah] == BLANK && nah >= 0)  nah--;
             if(nah < 0)   break;
             swap(items[col][nah], items[col][blank]);
             //now blank = nah, nah = blank
             posX[col][blank] = posX[col][nah];
             posY[col][blank] = posY[col][nah];
+            cout << endl << "DA swapp" << endl;
+
         }
     }
 
@@ -208,13 +211,14 @@ bool Candy::checkClear()
     {
         cnt = 1;
         for(row = 1; row <= NumCell; row++)
-            if (items[col][row] >= BLANK && items[col][row] == items[col][row - 1]) cnt++;
+            if (items[col][row] < QUAD_VERT && items[col][row] > BLANK && items[col][row] == items[col][row - 1]) cnt++;
             else
             {
                 if (cnt > 2)
                 {
                     can = true;
-                    for(int i = row - 1; i >= row - cnt; i--) items[col][i] = -1;
+                    for(int i = row - 1; i >= row - cnt; i--)
+                        items[col][i] = BLANK;
                     if (cnt == 5) items[col][row - cnt] = QUINTUPLE;
                     if (cnt == 4) items[col][row - cnt] = QUAD_HORI;
                 }
@@ -226,13 +230,14 @@ bool Candy::checkClear()
     {
         cnt = 1;
         for(col = 1; col <= NumCell; col++)
-            if (items[col][row] >= BLANK && items[col][row] == items[col - 1][row]) cnt++;
+            if (items[col][row] < QUAD_VERT && items[col][row] > BLANK && items[col][row] == items[col - 1][row]) cnt++;
             else
             {
                 if (cnt > 2)
                 {
                     can = true;
-                    for(int i = col - 1; i >= col - cnt; i--) items[i][row] = -1;
+                    for(int i = col - 1; i >= col - cnt; i--)
+                        items[i][row] = BLANK;
                     if (cnt == 5) items[col - cnt][row] = QUINTUPLE;
                     if (cnt == 4) items[col - cnt][row] = QUAD_VERT;
                 }
@@ -246,32 +251,20 @@ bool Candy::checkClear()
 int Candy::horizontal(int x, int y){
     int y_left = y - 1;
     int y_right = y + 1;
-    if (items[x][y] == BLANK)   return 0;
+    if (items[x][y] == BLANK || items[x][y] >= QUAD_VERT)   return 0;
     while (y_left >= 0 && items[x][y_left] == items[x][y])  y_left--;
     while (y_right < NumCell && items[x][y_right] == items[x][y])  y_right++;
 
-    if (y_right - y_left - 1 >= 3){
-        for (int i = y_left + 1; i < y_right; i++){
-            //if (i != y)
-                //items[x][i] = BLANK;
-        }
-    }
     return y_right - y_left - 1;
 }
 
 int Candy::vertical(int x, int y){
     int x_up = x - 1;
     int x_down = x + 1;
-    if (items[x][y] == BLANK)   return 0;
+    if (items[x][y] == BLANK || items[x][y] >= QUAD_VERT)   return 0;
     while (x_up >= 0 && items[x_up][y] == items[x][y])  x_up--;
     while (x_down < NumCell && items[x_down][y] == items[x][y])  x_down++;
 
-    if (x_down - x_up - 1 >= 3){
-        for (int i = x_up + 1; i < x_down; i++){
-            //if (i != x)
-                //items[i][y] = BLANK;
-        }
-    }
     return x_down - x_up - 1;
 }
 
@@ -299,22 +292,33 @@ void Candy::Stripe(int x, int y){
     }
 }
 
+void destroyAll(){
+
+}
+
 void Candy::Gaturingu(int x, int y, int type){
     for (int i = 0; i < NumCell; i++)
-        for (int j = 0; j < NumCell; j++)
-            if(items[i][j] == type)
+        for (int j = 0; j < NumCell; j++){
+            if (type == QUINTUPLE){
                 items[i][j] = BLANK;
+            }
+            else if (type == QUAD_HORI || type == QUAD_VERT){
+                if (items[i][j] == QUAD_HORI || items[i][j] == QUAD_VERT)
+                    Stripe(i, j);
+            }
+            else if(items[i][j] == type)
+                items[i][j] = BLANK;
+
+        }
     items[x][y] = BLANK;
 }
 
 void Candy::updateBoard(){
-    while(checkClear())
-    {
-        //eatItems();
-        //print();
+    while (true){
         drawGame();
         Sleep(timeSleep);
         DropDown();
+        if(!checkClear()) break;
     }
 }
 
@@ -339,13 +343,13 @@ void Candy::updateGame(){
             if(!CanSwap(x, y, u, v)){
                 swapItems(x, y, u, v);
             }
-            else updateBoard();
+            updateBoard();
         }
-
     }
     else if(cnt_sel == 1 && (items[x][y] == QUAD_HORI || items[x][y] == QUAD_VERT)){
         cnt_sel = 0;
         Stripe(x, y);
+
         updateBoard();
     }
 }
