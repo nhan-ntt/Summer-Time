@@ -87,13 +87,18 @@ bool LTexture::LoadFromFile(std::string path, SDL_Renderer *gRenderer)
 
 void LTexture::Render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
 {
-	SDL_Rect renderSpace = { x, y, mWidth, mHeight };
+	SDL_Rect renderSpace = { x, y, mWidth, mHeight};
 
 	if (clip != nullptr)
 	{
 		renderSpace.w = clip->w;
 		renderSpace.h = clip->h;
 	}
+
+	SDL_RenderCopy(gRenderer, mTexture, clip, &renderSpace);
+}
+void LTexture::Render_size(int x, int y, int w, int h, SDL_Renderer* gRenderer, SDL_Rect* clip){
+	SDL_Rect renderSpace = { x, y, w, h};
 
 	SDL_RenderCopy(gRenderer, mTexture, clip, &renderSpace);
 }

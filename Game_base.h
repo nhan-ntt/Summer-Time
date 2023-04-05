@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <ctime>
+#include <windows.h>
 
 #define SDL_ERROR 1
 #define IMG_ERROR 2
@@ -72,11 +73,27 @@ const int PAUSE_BUTTON_POSY = 29;
 const int CONTINUE_BUTTON_POSX = 31;
 const int CONTINUE_BUTTON_POSY = 29;
 
+const int NumCell = 7;
+const int NumItem = 4;
+const int itemLength = 75;
+const int startX = 75;
+const int startY = 50;
+const int itemSpeed = 5;
+const int timeSleep = 100;
+
 enum ButtonSprite
 {
 	BUTTON_MOUSE_OUT = 0,
 	BUTTON_MOUSE_OVER = 1,
 	BUTTON_TOTAL = 2
+};
+
+enum GameItem
+{
+    BLANK = -1,
+    SQUARE, HEART, CIRCLE, DIAMOND,
+    QUAD_VERT, QUAD_HORI,
+    QUINTUPLE
 };
 
 void LogError(std::string msg, int error_code = SDL_ERROR);

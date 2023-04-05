@@ -20,7 +20,11 @@ LTexture gMenuTexture;
 LTexture gInstructionTexture;
 LTexture gGridTexture;
 
-LTexture ItemTexture[NumItem];
+LTexture ChooseTexture;
+
+LTexture DisTexture;
+
+LTexture ItemTexture[NumItem + 10];
 
 LTexture gPlayButtonTexture;
 LTexture gHelpButtonTexture;

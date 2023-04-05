@@ -1,0 +1,39 @@
+- void draw : render lên từng khoảnh khắc của grid :)))
+- void swap : đổi chỗ pos và next của 2 thằng liên tiếp
+- int dọc (x, y) : tìm lân cận dọc của x, y
+- int ngang (x, y) : lân cận ngang của x, y
+- CanSwap(x, y, u, v) 
+- bool biến mất trên cả bảng: biến bọn iu nhau thành BLANK
+	{
+		
+	}
+
+- void drop : cho họ xuống đi :))
+- void updateBoard
+	while (!biến mất trên cả bảng){
+		draw
+		drop
+		sleep
+	}
+- bool TẠO 4 (int x, int y):
+	if(horizontal == 4)
+	{
+		i1 -> i2 = BLANK
+		(x, y) = bon
+	}
+	if (vertical == 4)
+		i1 -> i2 = BLANK
+		(x, y) = bon
+	return true
+
+- bool tạo 5 (int x, int y) // jong 4
+
+
+
+
+
+
+
+
+
+

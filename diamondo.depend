@@ -59,7 +59,7 @@
 	"Game_base.h"
 	"LTexture.h"
 
-1679908977 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\game_base.h
+1680521070 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\game_base.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -70,15 +70,16 @@
 	<string>
 	<vector>
 	<ctime>
+	<windows.h>
 
-1678470272 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\ltexture.h
+1680194521 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\ltexture.h
 	"Game_base.h"
 
-1680024574 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\candy.cpp
+1680680159 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\candy.cpp
 	"Candy.h"
 	"Vari_and_Const.h"
 
-1680024400 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\candy.h
+1680679320 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\candy.h
 	"Game_base.h"
 	"Game_Utils.h"
 	"Button.h"
@@ -96,7 +97,7 @@
 	"Button.h"
 	"LTexture.h"
 
-1678415243 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\ltexture.cpp
+1680194669 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\ltexture.cpp
 	"LTexture.h"
 
 1678506222 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\main.cpp
@@ -106,7 +107,7 @@
 	"LTexture.h"
 	"Candy.h"
 
-1678540382 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\vari_and_const.h
+1680628492 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\vari_and_const.h
 	"Button.h"
 	"LTexture.h"
 	"Game_base.h"
