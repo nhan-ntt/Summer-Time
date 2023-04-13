@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Summer Time" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Summer Time" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Summer Time" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="code/Button.cpp" />
+		<Unit filename="code/Button.h" />
+		<Unit filename="code/Candy.cpp" />
+		<Unit filename="code/Candy.h" />
+		<Unit filename="code/Game_Utils.cpp" />
+		<Unit filename="code/Game_Utils.h" />
+		<Unit filename="code/Game_base.cpp" />
+		<Unit filename="code/Game_base.h" />
+		<Unit filename="code/LTexture.cpp" />
+		<Unit filename="code/LTexture.h" />
+		<Unit filename="code/Vari_and_Const.h" />
+		<Unit filename="code/main.cpp" />
+		<Unit filename="rr.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

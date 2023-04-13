@@ -1,0 +1,123 @@
+# depslib dependency file v1.0
+1681033965 source:h:\nhon uwuet\lap trinh nang caooo\candycrush\code\button.cpp
+	"Button.h"
+
+1681033974 h:\nhon uwuet\lap trinh nang caooo\candycrush\code\button.h
+	"Game_base.h"
+	"LTexture.h"
+
+1681232731 h:\nhon uwuet\lap trinh nang caooo\candycrush\code\game_base.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<sstream>
+	<string>
+	<vector>
+	<ctime>
+	<windows.h>
+
+1681228774 h:\nhon uwuet\lap trinh nang caooo\candycrush\code\ltexture.h
+	"Game_base.h"
+
+1681235686 source:h:\nhon uwuet\lap trinh nang caooo\candycrush\code\candy.cpp
+	"Candy.h"
+	"Vari_and_Const.h"
+
+1681229140 h:\nhon uwuet\lap trinh nang caooo\candycrush\code\candy.h
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+
+1681227381 h:\nhon uwuet\lap trinh nang caooo\candycrush\code\game_utils.h
+	"Game_base.h"
+	"Button.h"
+	"LTexture.h"
+
+1681227438 h:\nhon uwuet\lap trinh nang caooo\candycrush\code\vari_and_const.h
+	"Button.h"
+	"LTexture.h"
+	"Game_base.h"
+
+1678415243 source:h:\nhon uwuet\lap trinh nang caooo\candycrush\code\game_base.cpp
+	"Game_base.h"
+
+1681232564 source:h:\nhon uwuet\lap trinh nang caooo\candycrush\code\game_utils.cpp
+	"Game_Utils.h"
+	"Candy.h"
+
+1681228916 source:h:\nhon uwuet\lap trinh nang caooo\candycrush\code\ltexture.cpp
+	"LTexture.h"
+
+1678506222 source:h:\nhon uwuet\lap trinh nang caooo\candycrush\code\main.cpp
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+	"Candy.h"
+
+1681033965 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\code\button.cpp
+	"Button.h"
+
+1681033974 h:\nhon uwuet\lap trinh nang caooo\summertimee\code\button.h
+	"Game_base.h"
+	"LTexture.h"
+
+1681308485 h:\nhon uwuet\lap trinh nang caooo\summertimee\code\game_base.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<sstream>
+	<string>
+	<vector>
+	<ctime>
+	<windows.h>
+
+1681228774 h:\nhon uwuet\lap trinh nang caooo\summertimee\code\ltexture.h
+	"Game_base.h"
+
+1678415243 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\code\game_base.cpp
+	"Game_base.h"
+
+1681232564 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\code\game_utils.cpp
+	"Game_Utils.h"
+	"Candy.h"
+
+1681227381 h:\nhon uwuet\lap trinh nang caooo\summertimee\code\game_utils.h
+	"Game_base.h"
+	"Button.h"
+	"LTexture.h"
+
+1681308028 h:\nhon uwuet\lap trinh nang caooo\summertimee\code\candy.h
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+
+1681228916 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\code\ltexture.cpp
+	"LTexture.h"
+
+1678506222 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\code\main.cpp
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+	"Candy.h"
+
+1680885007 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\rr.rc
+
+1681309004 source:h:\nhon uwuet\lap trinh nang caooo\summertimee\code\candy.cpp
+	"Candy.h"
+	"Vari_and_Const.h"
+
+1681308460 h:\nhon uwuet\lap trinh nang caooo\summertimee\code\vari_and_const.h
+	"Button.h"
+	"LTexture.h"
+	"Game_base.h"
+
