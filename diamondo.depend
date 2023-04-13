@@ -1,0 +1,114 @@
+# depslib dependency file v1.0
+1678361609 source:c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\main.cpp
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+
+1678297996 c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\draw.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<iostream>
+
+1678296636 source:c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\draw.cpp
+	"draw.h"
+
+1678298004 source:c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\ltexture.cpp
+	"LTexture.h"
+
+1678337819 c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\ltexture.h
+	"Game_base.h"
+
+1678345823 c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\game_base.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<sstream>
+	<string>
+	<vector>
+	<ctime>
+
+1678338638 source:c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\game_base.cpp
+	"Game_base.h"
+
+1678297298 source:c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\button.cpp
+	"Button.h"
+
+1678337898 c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\button.h
+	"Game_base.h"
+	"LTexture.h"
+
+1678348027 source:c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\game_utils.cpp
+	"Game_Utils.h"
+	"Game_base.h"
+	"LTexture.h"
+
+1678346609 c:\users\admin\onedrive - vnu.edu.vn\documents\project_sdlgame\game_utils.h
+	"Game_Base.h"
+	"Button.h"
+
+1678415243 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\button.cpp
+	"Button.h"
+
+1678470334 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\button.h
+	"Game_base.h"
+	"LTexture.h"
+
+1680521070 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\game_base.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<iostream>
+	<fstream>
+	<sstream>
+	<string>
+	<vector>
+	<ctime>
+	<windows.h>
+
+1680194521 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\ltexture.h
+	"Game_base.h"
+
+1680680159 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\candy.cpp
+	"Candy.h"
+	"Vari_and_Const.h"
+
+1680679320 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\candy.h
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+
+1678415243 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\game_base.cpp
+	"Game_base.h"
+
+1680004229 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\game_utils.cpp
+	"Game_Utils.h"
+	"Candy.h"
+
+1680004229 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\game_utils.h
+	"Game_base.h"
+	"Button.h"
+	"LTexture.h"
+
+1680194669 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\ltexture.cpp
+	"LTexture.h"
+
+1678506222 source:h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\main.cpp
+	"Game_base.h"
+	"Game_Utils.h"
+	"Button.h"
+	"LTexture.h"
+	"Candy.h"
+
+1680628492 h:\nhon uwuet\lap trinh nang caooo\project_sdlgame\vari_and_const.h
+	"Button.h"
+	"LTexture.h"
+	"Game_base.h"
+
