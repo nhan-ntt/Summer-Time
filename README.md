@@ -8,7 +8,7 @@ It's finally summer, let's enjoy ourselves at the beach and taste a variety of j
 ## 📱How to play
 - Use your mouse 🖱️to swap 2 adjacent items in the board
 
-If you create a horizontal triple of fruits or a vertical one, they will disappear and give you 3 points
+If you create a horizontal triple of fruits or a vertical one, they will disappear.
 
 ![quad_hori](https://user-images.githubusercontent.com/121799496/232235652-17be9edd-34e8-427b-9998-aedf84e6cc11.png) In addition, creating a horizontal quadruple will generate a glass of juice.
 
