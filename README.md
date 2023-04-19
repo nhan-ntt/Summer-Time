@@ -4,6 +4,7 @@
 ## 🎮About game
 
 It's finally summer, let's enjoy ourselves at the beach and taste a variety of juicy fruits in this wonderful season.
+This game is inspired by the famous Candy Crush Saga 🍬🍭🍫
 
 ## 📱How to play
 - Use your mouse 🖱️to swap 2 adjacent items in the board
