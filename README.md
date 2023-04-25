@@ -1,5 +1,6 @@
 # Summer-Time
 :>> A simple game project using SDL2 and C++ made by Thanh Nhan
+[Demo video](https://youtu.be/U2TC7Dek2VU)
 
 ## 🎮About game
 
@@ -20,6 +21,8 @@ Similarly, a vertical quadruple will result in a pair of flipflops. ![quad_vert]
 - Clicking on a glass of juice will make all the fruits in a row disappear, except for the starfish. If there is a pair of flipflops in that row, it will be in use and make a column of fruits disappear
 - Combining a starfish with juice or flipflops activates all special items at once.
 - You only have a certain number of moves to accumulate points. You will win if your score is equal to or greater than the target.
+
+- There are 3 levels: Easy, Medium and Hard.
 
 ## 📩How to install
 - Download [this](https://github.com/Thanhnhan1911/Summer-Time/tree/testo) folder and extract it
