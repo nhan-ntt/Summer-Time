@@ -51,18 +51,24 @@ const int PAUSE_BUTTON_POSX = 31;
 const int PAUSE_BUTTON_POSY = 29;
 const int CONTINUE_BUTTON_POSX = 31;
 const int CONTINUE_BUTTON_POSY = 29;
-const int RE_BUTTON_POSX = 50;
-const int RE_BUTTON_POSY = 40;
-const int QUIT_BUTTON_POSX = 165;
-const int QUIT_BUTTON_POSY = 300;
+const int QUIT_BUTTON_POSX = 50;
+const int QUIT_BUTTON_POSY = 40;
+const int RE_BUTTON_POSX = 165;
+const int RE_BUTTON_POSY = 300;
+
+const int LEVEL_POSX = 430;
+const int EASY_BUTTON_POSY = 150;
+const int MEDIUM_BUTTON_POSY = 270;
+const int HARD_BUTTON_POSY = 390;
+
 
 const int SCORE_POSX = 250;
 const int SCORE_POSY = 190;
 
-const int MOVE_POSX = 275;
-const int MOVE_POSY = 60;
+const int MOVE_POSX = 277;
+const int MOVE_POSY = 57;
 
-const int TAR_POSX = 55;
+const int TAR_POSX = 50;
 const int TAR_POSY = 190;
 
 const int NumCOL = 9;
@@ -73,8 +79,8 @@ const int startX = 420;
 const int startY = 30;
 const int itemSpeed = 5;
 const int timeSleep = 100;
-const int moveAllowed = 20;
-const int maxScore = 400;
+const int moveAllowed[3] = {10, 15, 20};
+const int maxScore[3] = {100, 350, 500};
 
 enum ButtonSprite
 {
@@ -82,7 +88,10 @@ enum ButtonSprite
 	BUTTON_MOUSE_OVER = 1,
 	BUTTON_TOTAL = 2
 };
-
+enum Level
+{
+	EASY, MEDIUM, HARD
+};
 enum GameItem
 {
     BLANK = -1,

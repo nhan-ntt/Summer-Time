@@ -3,7 +3,7 @@
 
 
 int Candy::newItem(){
-    return (rand() % NumItem);
+    return (rand() % (NumItem + 0));
 }
 
 bool Candy::checkInit(){
@@ -51,18 +51,21 @@ void Candy::initGame(){
         }
     }
     cnt_sel = 0;
-    moves = moveAllowed;
+    moves = moveAllowed[level];
+    target = maxScore[level];
     score = 0;
     Pscore = {0, 0};
     restart = false;
     quit = false;
     y = startY - 540;
+    endgame = false;
+
 }
 
 int gcd(int x,int y){
-    if (x == y || x==-y) return abs(x);
+    //if (x == y || x==-y) return abs(x);
     if (x*y==0) return abs(x+y);
-    return gcd(x%y,y%x);
+    //return gcd(x%y,y%x);
 }
 
 stringstream ScoreText, MoveText;
@@ -98,7 +101,7 @@ void Candy::drawGame(){
                 ItemTexture[type].Render(posX[i][j], posY[i][j],gRenderer);
             else{
                 DisTexture.Render(posX[i][j], posY[i][j], gRenderer);
-                SDL_Delay(5);
+                //SDL_Delay(10);
             }
         }
     }
@@ -129,8 +132,11 @@ void Candy::drawGame(){
                 //if (y == startY)    LoseTexture.Render(startX, startY, gRenderer);
             }
         }
-        SDL_Rect* currentClip_Play = &gQuitButton[QuitButton.currentSprite];
-        QuitButton.Render(currentClip_Play, gRenderer, gQuitButtonTexture);
+
+
+        SDL_Rect* currentClip_Restart = &gRestartButton[RestartButton.currentSprite];
+        RestartButton.Render(currentClip_Restart, gRenderer, gRestartButtonTexture);
+
         check = false;
     }
 
@@ -142,6 +148,9 @@ void Candy::drawGame(){
 
     SDL_Rect* currentClip_Play2 = &gRestartButton[RestartButton.currentSprite];
     RestartButton.Render(currentClip_Play2, gRenderer, gRestartButtonTexture);
+
+    SDL_Rect* currentClip_Home = &gHomeButton[HomeButton.currentSprite];
+    HomeButton.Render(currentClip_Home, gRenderer, gHomeButtonTexture);
 
     SDL_RenderPresent(gRenderer);
 
@@ -373,6 +382,8 @@ void Candy::Gaturingu(int x, int y, int type){
             for (int j = 0; j < NumROW; j++){
                 items[i][j] = BLANK;
                 DisTexture.Render(posX[i][j], posY[i][j], gRenderer);
+                SDL_Delay(5);
+                SDL_RenderPresent(gRenderer);
             }
         }
     }
@@ -457,19 +468,17 @@ void Candy::updateGame(int &moves){
     }
 }
 
-void Candy::run(){
+void Candy::GamePlay(){
     const int FPS = 60;
     const int frameDelay = 1000 / FPS;
 
     Uint32 frameStart;
     int frameTime;
+    frameStart = SDL_GetTicks();
 
-    if (init() && loadMedia())
-    {
-        frameStart = SDL_GetTicks();
+        initGame();
 
         if (menu)     Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
-
 
         while (menu)
         {
@@ -481,12 +490,11 @@ void Candy::run(){
                     quit = true;
                 }
 
-                HandlePlayButton(&e_mouse, PlayButton, menu, play, gClick);
+                HandleLevelButton(&e_mouse, PlayButton, menu, chooselevel, gClick);
                 HandleHelpButton(&e_mouse, gBackButton, HelpButton, BackButton, gInstructionTexture, gBackButtonTexture, gRenderer, quit, gClick );
                 HandleExitButton(&e_mouse, ExitButton, quit, gClick);
 
                 if (quit == true)   return;
-
             }
 
             gMenuTexture.Render_size(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, gRenderer);
@@ -505,12 +513,44 @@ void Candy::run(){
 
         }
 
+        while (chooselevel)
+        {
+            SDL_Event e_mouse;
+            while (SDL_PollEvent(&e_mouse) != 0)
+            {
+                if (e_mouse.type == SDL_QUIT){
+                    menu = false;
+                    quit = true;
+                }
+                HandleEASYButton(&e_mouse, EASYButton, chooselevel, play, gClick, level);
+                HandleMEDIUMButton(&e_mouse, MEDIUMButton, chooselevel, play, gClick, level);
+                HandleHARDButton(&e_mouse, HARDButton, chooselevel, play, gClick, level);
+
+                if (quit == true)   return;
+
+            }
+
+            gLevelTexture.Render_size(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, gRenderer);
+
+            SDL_Rect* currentClip_EASY = &gEASYButton[EASYButton.currentSprite];
+            EASYButton.Render(currentClip_EASY, gRenderer, gEASYButtonTexture);
+
+            SDL_Rect* currentClip_MEDIUM = &gMEDIUMButton[MEDIUMButton.currentSprite];
+            MEDIUMButton.Render(currentClip_MEDIUM, gRenderer, gMEDIUMButtonTexture);
+
+            SDL_Rect* currentClip_HARD = &gHARDButton[HARDButton.currentSprite];
+            HARDButton.Render(currentClip_HARD, gRenderer, gHARDButtonTexture);
+
+
+            SDL_RenderPresent(gRenderer);
+            SDL_RenderClear(gRenderer);
+        }
+
         initGame();
 
         if(play)    Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 
-
-        while (!quit)
+        while (play)
         {
             int mouseX, mouseY;
             SDL_Event e_mouse;
@@ -523,6 +563,13 @@ void Candy::run(){
                 }
 
                 HandleRestartButton(&e_mouse, RestartButton, quit, restart, gClick);
+                HandleHomeButton(&e_mouse, HomeButton, menu, play, gClick);
+                SDL_RenderPresent(gRenderer);
+
+                if (menu){
+                        GamePlay();
+                        return;
+                }
 
                 if (restart){
                     initGame();
@@ -530,10 +577,6 @@ void Candy::run(){
                     play = true;
                 }
 
-                if(endgame){
-                    HandleExitButton(&e_mouse, QuitButton, quit, gClick);
-                    play = false;
-                }
 
                 if (play){
                     if (e_mouse.type == SDL_MOUSEBUTTONDOWN){
@@ -557,16 +600,23 @@ void Candy::run(){
             if (endgame)
                 drawGame();
 
+
             if (play){
                 if (moves == 0){
                     endgame = true;
-                    if (score >= maxScore)  lose = false;
+                    if (score >= maxScore[level])  lose = false;
                     else                    lose = true;
                 }
             }
         }
-    }
+}
 
+void Candy::run(){
+
+    if (init() && loadMedia())
+    {
+        if (!quit)  GamePlay();
+    }
 
     close();
 
@@ -669,7 +719,10 @@ bool loadMedia()
             std::cout << "Failed to load grid image" << std::endl;
             success = false;
         }
-
+        if (!gLevelTexture.LoadFromFile("image/level.png", gRenderer)){
+            std::cout << "Failed to load menu image" << std::endl;
+            success = false;
+        }
         nhan.LoadItemsFromFile("image/candee1.png", gRenderer);
 
         if (!ItemTexture[COCONUT].LoadFromFile("image/coconut.png", gRenderer))   success = false;
@@ -736,16 +789,16 @@ bool loadMedia()
         }
     }
 
-    if (!gQuitButtonTexture.LoadFromFile("image/esc.png", gRenderer)){
-        std::cout << "Failed to load play_button image" << std::endl;
+    if (!gHomeButtonTexture.LoadFromFile("image/home.png", gRenderer)){
+        std::cout << "Failed to load home_button image" << std::endl;
         success = false;
     }
     else{
         for (int i = 0; i < BUTTON_TOTAL; ++i){
-            gQuitButton[i].x = 90 * i;
-            gQuitButton[i].y = 0;
-            gQuitButton[i].w = 90;
-            gQuitButton[i].h = 85;
+            gHomeButton[i].x = 90 * i;
+            gHomeButton[i].y = 0;
+            gHomeButton[i].w = 90;
+            gHomeButton[i].h = 85;
         }
     }
 
@@ -775,6 +828,43 @@ bool loadMedia()
         }
     }
 
+    if (!gEASYButtonTexture.LoadFromFile("image/easy.png", gRenderer)){
+        std::cout << "Failed to load help_button image" << std::endl;
+        success = false;
+    }
+    else{
+        for (int i = 0; i < BUTTON_TOTAL; ++i){
+            gEASYButton[i].x = 180 * i;
+            gEASYButton[i].y = 0;
+            gEASYButton[i].w = 180;
+            gEASYButton[i].h = 95;
+        }
+    }
+    if (!gMEDIUMButtonTexture.LoadFromFile("image/medium.png", gRenderer)){
+        std::cout << "Failed to load play_button image" << std::endl;
+        success = false;
+    }
+    else{
+        for (int i = 0; i < BUTTON_TOTAL; ++i){
+            gMEDIUMButton[i].x = 180 * i;
+            gMEDIUMButton[i].y = 0;
+            gMEDIUMButton[i].w = 180;
+            gMEDIUMButton[i].h = 95;
+        }
+    }
+    if (!gHARDButtonTexture.LoadFromFile("image/hard.png", gRenderer)){
+        std::cout << "Failed to load play_button image" << std::endl;
+        success = false;
+    }
+    else{
+        for (int i = 0; i < BUTTON_TOTAL; ++i){
+            gHARDButton[i].x = 180 * i;
+            gHARDButton[i].y = 0;
+            gHARDButton[i].w = 180;
+            gHARDButton[i].h = 95;
+        }
+    }
+
     return success;
 }
 
@@ -784,6 +874,7 @@ void close()
     gMenuTexture.Free();
     gInstructionTexture.Free();
     gGridTexture.Free();
+    gLevelTexture.Free();
 
     ChooseTexture.Free();
     HoriTexture.Free();
@@ -801,7 +892,7 @@ void close()
     gHelpButtonTexture.Free();
     gBackButtonTexture.Free();
     gExitButtonTexture.Free();
-    gQuitButtonTexture.Free();
+    gHomeButtonTexture.Free();
     gRestartButtonTexture.Free();
 
     Mix_FreeChunk(gClick);

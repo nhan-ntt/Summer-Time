@@ -42,15 +42,8 @@ void HandlePlayButton(SDL_Event* e,	Button& PlayButton,	bool& menu,	bool& play,	
 	}
 }
 
-void HandleHelpButton(SDL_Event* e,
-	SDL_Rect(&gBackButton)[BUTTON_TOTAL],
-	Button& HelpButton,
-	Button& BackButton,
-	LTexture gMenuTexture,
-	LTexture gBackButtonTexture,
-	SDL_Renderer *gRenderer,
-	bool &quit,
-	Mix_Chunk *gClick)
+void HandleHelpButton(SDL_Event* e,	SDL_Rect(&gBackButton)[BUTTON_TOTAL],	Button& HelpButton,	Button& BackButton,
+                      	LTexture gMenuTexture,	LTexture gBackButtonTexture,	SDL_Renderer *gRenderer,	bool &quit,	Mix_Chunk *gClick)
 {
     if(e->type == SDL_QUIT){
         quit = true;
@@ -165,5 +158,140 @@ void HandleRestartButton(SDL_Event* e, Button& RestartButton, bool& quit, bool& 
 	else
 	{
 		RestartButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
+
+
+void HandleLevelButton(SDL_Event* e, Button& PlayButton,	bool& menu,	bool& chooselevel,	Mix_Chunk* gClick)
+{
+	if (e->type == SDL_QUIT)
+	{
+		menu = false;
+	}
+
+	if (PlayButton.IsInside(e, COMMON_BUTTON))
+	{
+		switch (e->type)
+		{
+		case SDL_MOUSEMOTION:
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			chooselevel = true;
+			menu = false;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		}
+	}
+	else
+	{
+		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
+
+void HandleEASYButton(SDL_Event* e,	Button& PlayButton,	bool& chooselevel,	bool& play,	Mix_Chunk* gClick, int& LEVEL){
+	if (e->type == SDL_QUIT)
+	{
+		chooselevel = false;
+	}
+
+	if (PlayButton.IsInside(e, COMMON_BUTTON))
+	{
+		switch (e->type)
+		{
+		case SDL_MOUSEMOTION:
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			play = true;
+			chooselevel = false;
+			LEVEL = EASY;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		}
+	}
+	else
+	{
+		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
+
+void HandleMEDIUMButton(SDL_Event* e,	Button& PlayButton,	bool& chooselevel,	bool& play,	Mix_Chunk* gClick, int& LEVEL){
+	if (e->type == SDL_QUIT)
+	{
+		chooselevel = false;
+	}
+
+	if (PlayButton.IsInside(e, COMMON_BUTTON))
+	{
+		switch (e->type)
+		{
+		case SDL_MOUSEMOTION:
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			play = true;
+			chooselevel = false;
+			LEVEL = MEDIUM;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		}
+	}
+	else
+	{
+		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
+void HandleHARDButton(SDL_Event* e,	Button& PlayButton,	bool& chooselevel,	bool& play,	Mix_Chunk* gClick, int& LEVEL){
+	if (e->type == SDL_QUIT)
+	{
+		chooselevel = false;
+	}
+
+	if (PlayButton.IsInside(e, COMMON_BUTTON))
+	{
+		switch (e->type)
+		{
+		case SDL_MOUSEMOTION:
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			play = true;
+			chooselevel = false;
+			LEVEL = HARD;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, 0);
+			PlayButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		}
+	}
+	else
+	{
+		PlayButton.currentSprite = BUTTON_MOUSE_OUT;
+	}
+}
+
+void HandleHomeButton(SDL_Event* e, Button& HomeButton, bool& menu, bool& play, Mix_Chunk* gClick){
+	if (HomeButton.IsInside(e, SMALL_BUTTON))
+	{
+		switch (e->type)
+		{
+		case SDL_MOUSEMOTION:
+			HomeButton.currentSprite = BUTTON_MOUSE_OVER;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+
+			HomeButton.currentSprite = BUTTON_MOUSE_OVER;
+			Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+            menu = true;
+            play = false;
+			break;
+		}
+	}
+	else
+	{
+		HomeButton.currentSprite = BUTTON_MOUSE_OUT;
 	}
 }

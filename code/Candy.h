@@ -22,16 +22,17 @@ class Candy{
     stringstream sscore, smove;
 
     int y = startY - 540;
-
+    int level;
     int score = 0;
     pair<int, int> Pscore;
     pair<int, int> selected[2]; //first la x, second la y, cot, hang
     int cnt_sel = 0;
-    int moves = moveAllowed;
-    int target = maxScore;
+    int moves;
+    int target;
 
     bool quit = false;
     bool menu = true;
+    bool chooselevel = false;
     bool play = false;
     bool restart = false;
     bool lose = false;
@@ -60,6 +61,7 @@ private:
     //void updateScore(int *score);
     void updateScore(int *score, pair <int, int>& Pscore);
     void updateMoves(int *moves);
+    void GamePlay();
 };
 
 #endif // CANDY_H

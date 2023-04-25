@@ -23,11 +23,16 @@ SDL_Rect gHelpButton[BUTTON_TOTAL];
 SDL_Rect gExitButton[BUTTON_TOTAL];
 SDL_Rect gBackButton[BUTTON_TOTAL];
 SDL_Rect gRestartButton[BUTTON_TOTAL];
-SDL_Rect gQuitButton[BUTTON_TOTAL];
+SDL_Rect gHomeButton[BUTTON_TOTAL];
+
+SDL_Rect gEASYButton[BUTTON_TOTAL];
+SDL_Rect gMEDIUMButton[BUTTON_TOTAL];
+SDL_Rect gHARDButton[BUTTON_TOTAL];
 
 LTexture gMenuTexture;
 LTexture gInstructionTexture;
 LTexture gGridTexture;
+LTexture gLevelTexture;
 
 LTexture ChooseTexture;
 
@@ -53,14 +58,22 @@ LTexture gHelpButtonTexture;
 LTexture gExitButtonTexture;
 LTexture gBackButtonTexture;
 LTexture gRestartButtonTexture;
-LTexture gQuitButtonTexture;
+LTexture gHomeButtonTexture;
+
+LTexture gEASYButtonTexture;
+LTexture gMEDIUMButtonTexture;
+LTexture gHARDButtonTexture;
 
 Button PlayButton(PLAY_BUTTON_POSX, PLAY_BUTTON_POSY);
 Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
 Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
 Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
 Button RestartButton(RE_BUTTON_POSX, RE_BUTTON_POSY);
-Button QuitButton(QUIT_BUTTON_POSX, QUIT_BUTTON_POSY);
+Button HomeButton(QUIT_BUTTON_POSX, QUIT_BUTTON_POSY);
+
+Button EASYButton(LEVEL_POSX, EASY_BUTTON_POSY);
+Button MEDIUMButton(LEVEL_POSX, MEDIUM_BUTTON_POSY);
+Button HARDButton(LEVEL_POSX, HARD_BUTTON_POSY);
 
 
 #endif // VARICONST_H_

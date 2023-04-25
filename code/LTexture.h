@@ -19,6 +19,7 @@ public:
 	void LoadItemsFromFile(std::string path, SDL_Renderer *gRenderer);
 
 	void Render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip = NULL);
+
 	void Render_size(int x, int y, int w, int h, SDL_Renderer* gRenderer, SDL_Rect* clip = NULL);
 	void Render_size_type(int type, int x, int y, int w, int h, SDL_Renderer* gRenderer);
 

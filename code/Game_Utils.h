@@ -16,6 +16,12 @@ void printText(int score, int POSX, int POSY, SDL_Color textColor, SDL_Renderer*
 
 void HandlePlayButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& Play, Mix_Chunk* gClick);
 
+void HandleEASYButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& Play, Mix_Chunk* gClick, int& LEVEL);
+void HandleMEDIUMButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& Play, Mix_Chunk* gClick, int& LEVEL);
+void HandleHARDButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& Play, Mix_Chunk* gClick, int& LEVEL);
+
+void HandleLevelButton(SDL_Event* e, Button& PlayButton, bool& QuitMenu, bool& level, Mix_Chunk* gClick);
+
 void HandleRestartButton(SDL_Event* e, Button& RestartButton, bool& quit, bool& Restart, Mix_Chunk* gClick);
 
 void HandleHelpButton(SDL_Event* e,	SDL_Rect(&gBackButton)[BUTTON_TOTAL],
@@ -26,6 +32,8 @@ void HandleHelpButton(SDL_Event* e,	SDL_Rect(&gBackButton)[BUTTON_TOTAL],
 
 
 void HandleExitButton(SDL_Event* e, Button& ExitButton, bool& Quit, Mix_Chunk* gClick);
+
+void HandleHomeButton(SDL_Event* e, Button& HomeButton, bool& menu, bool& play, Mix_Chunk* gClick);
 
 
 
