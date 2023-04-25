@@ -1,5 +1,6 @@
 # Summer-Time
 :>> A simple game project using SDL2 and C++ made by Thanh Nhan
+
 [Demo video](https://youtu.be/U2TC7Dek2VU)
 
 ## 🎮About game
